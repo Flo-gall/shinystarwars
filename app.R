@@ -3,13 +3,29 @@ library(shiny)
 library(ggplot2)
 library(DT)
 library(usethis)
+library(bslib)
+library(thematic)
+library(bsicons)
+
+thematic_shiny(font = "auto")
 
 ui <- fluidPage(
+  theme = bs_theme(
+    version = 5,
+    bootswatch = "minty"
+  ),
+
     titlePanel("Star Wars"),
     h1("Star Wars Characters"),
 
     sidebarLayout(
         sidebarPanel(
+          actionButton(inputId = "boutton",
+                       label = "Clique moi"
+                       ),
+          actionButton(inputId = "boutton2",
+                       label = "Clique moi 2"
+          ),
             sliderInput(inputId = "taille",
                         label = "Height of characters :",
                         min = 0,
@@ -33,6 +49,16 @@ ui <- fluidPage(
 
 server <- function(input, output) {
     
+    observeEvent(input$boutton, {
+      message("vous avez cliqué sur le bouton")
+    })
+  
+  observeEvent(input$boutton2, {
+    message(showNotification(
+      "La valeur du slider a changé !",
+      type = "warning"
+    ))
+  })
     output$nbcharacters <- renderText({
       nb_lignes=starwars |> 
         filter(height > input$taille & gender == input$gender)|>
