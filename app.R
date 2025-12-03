@@ -56,7 +56,7 @@ server <- function(input, output) {
   observeEvent(input$boutton2, {
     message(showNotification(
       "La valeur du slider a changé !",
-      type = "warning"
+      type = "message"
     ))
   })
     output$nbcharacters <- renderText({
